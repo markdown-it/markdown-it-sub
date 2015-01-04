@@ -2,7 +2,7 @@
   "name": "markdown-it-sub",
   "main": "dist/markdown-it-sub.js",
   "homepage": "https://github.com/markdown-it/markdown-it-sub",
-  "description": "<ins> tag for markdown-it markdown parser.",
+  "description": "<sub> tag for markdown-it markdown parser.",
   "keywords": [
     "markdown-it-plugin",
     "markdown-it",
