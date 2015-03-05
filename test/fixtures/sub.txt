@@ -41,6 +41,13 @@
 .
 
 
+.
+x ~~~foo~~~
+.
+<p>x <s><sub>foo</sub></s></p>
+.
+
+
 coverage
 .
 *~f
