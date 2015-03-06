@@ -9,6 +9,7 @@ var UNESCAPE_RE = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
 function subscript(state, silent) {
   var found,
       content,
+      token,
       max = state.posMax,
       start = state.pos;
 
@@ -45,13 +46,14 @@ function subscript(state, silent) {
   state.pos = start + 1;
 
   // Earlier we checked !silent, but this implementation does not need it
-  state.push({ type: 'sub_open', level: state.level++ });
-  state.push({
-    type: 'text',
-    level: state.level,
-    content: content.replace(UNESCAPE_RE, '$1')
-  });
-  state.push({ type: 'sub_close', level: --state.level });
+  token         = state.push('sub_open', 'sub', 1);
+  token.markup  = '~';
+
+  token         = state.push('text', '', 0);
+  token.content = content.replace(UNESCAPE_RE, '$1');
+
+  token         = state.push('sub_close', 'sub', -1);
+  token.markup  = '~';
 
   state.pos = state.posMax + 1;
   state.posMax = max;
@@ -59,12 +61,6 @@ function subscript(state, silent) {
 }
 
 
-function sub_open()  { return '<sub>'; }
-function sub_close() { return '</sub>'; }
-
-
 module.exports = function sub_plugin(md) {
   md.inline.ruler.after('emphasis', 'sub', subscript);
-  md.renderer.rules.sub_open = sub_open;
-  md.renderer.rules.sub_close = sub_close;
 };
