@@ -6,6 +6,8 @@
 
 > Subscript (`<sub>`) tag plugin for [markdown-it](https://github.com/markdown-it/markdown-it) markdown parser.
 
+__v1.+ requires `markdown-it` v4.+, see changelog.__
+
 `H~2~0` => `H<sub>2</sub>O`
 
 Markup is based on [pandoc](http://johnmacfarlane.net/pandoc/README.html#superscripts-and-subscripts) definition. But nested markup is currently not supported.
