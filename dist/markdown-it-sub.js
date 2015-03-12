@@ -1,4 +1,4 @@
-/*! markdown-it-sub 0.1.0 https://github.com//markdown-it/markdown-it-sub @license MIT */!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.markdownitSub=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! markdown-it-sub 1.0.0 https://github.com//markdown-it/markdown-it-sub @license MIT */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.markdownitSub = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // Process ~subscript~
 
 'use strict';
@@ -10,6 +10,7 @@ var UNESCAPE_RE = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
 function subscript(state, silent) {
   var found,
       content,
+      token,
       max = state.posMax,
       start = state.pos;
 
@@ -46,13 +47,14 @@ function subscript(state, silent) {
   state.pos = start + 1;
 
   // Earlier we checked !silent, but this implementation does not need it
-  state.push({ type: 'sub_open', level: state.level++ });
-  state.push({
-    type: 'text',
-    level: state.level,
-    content: content.replace(UNESCAPE_RE, '$1')
-  });
-  state.push({ type: 'sub_close', level: --state.level });
+  token         = state.push('sub_open', 'sub', 1);
+  token.markup  = '~';
+
+  token         = state.push('text', '', 0);
+  token.content = content.replace(UNESCAPE_RE, '$1');
+
+  token         = state.push('sub_close', 'sub', -1);
+  token.markup  = '~';
 
   state.pos = state.posMax + 1;
   state.posMax = max;
@@ -60,14 +62,8 @@ function subscript(state, silent) {
 }
 
 
-function sub_open()  { return '<sub>'; }
-function sub_close() { return '</sub>'; }
-
-
 module.exports = function sub_plugin(md) {
   md.inline.ruler.after('emphasis', 'sub', subscript);
-  md.renderer.rules.sub_open = sub_open;
-  md.renderer.rules.sub_close = sub_close;
 };
 
 },{}]},{},[1])(1)
