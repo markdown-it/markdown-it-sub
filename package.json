@@ -9,6 +9,7 @@
     "subscript",
     "sub"
   ],
+  "types": "types/index.d.ts",
   "homepage": "https://github.com/markdown-it/markdown-it-sub",
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "istanbul": "*",
     "lodash": "*",
     "markdown-it": "^4.0.0",
+    "@types/markdown-it": "^10.0.0",
     "markdown-it-testgen": "~0.1.0",
     "mocha": "*",
     "request": "*",
