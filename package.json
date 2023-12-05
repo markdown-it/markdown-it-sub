@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-sub",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "<sub> tag for markdown-it markdown parser.",
   "keywords": [
     "markdown-it-plugin",
